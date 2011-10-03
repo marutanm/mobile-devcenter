@@ -1,5 +1,9 @@
 !!! 5
 %link{:rel => 'stylesheet', :href => 'http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.css'}
 %script{:src => 'http://code.jquery.com/jquery-1.6.4.min.js'}
+:javascript
+  $(document).bind("mobileinit", function(){
+    $.mobile.ajaxEnabled = false;
+  });
 %script{:src => 'http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.js'}
 = @contents
