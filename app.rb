@@ -9,7 +9,7 @@ get '/' do
 end
 
 get '/articles/:uri' do
-  doc = Nokogiri::HTML(open("http://devcenter.heroku.com/articles/#{params[:uri]}"))
+  doc = Nokogiri::HTML(open("#{BASE_URL}#{params[:uri]}"))
   @contents = doc.xpath('//section[@id="main"]').to_s
   haml :articles
 end
