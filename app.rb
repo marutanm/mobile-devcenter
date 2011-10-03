@@ -2,15 +2,19 @@ require 'open-uri'
 
 BASE_URL = 'http://devcenter.heroku.com/'
 
+helpers do
+  def scraping(url)
+    Nokogiri::HTML(open(url)).xpath('//section[@id="main"]').to_s
+  end
+end
+
 get '/' do
-  doc = Nokogiri::HTML(open(BASE_URL))
-  @contents = doc.xpath('//section[@id="main"]').to_s
-  haml :articles
+  @contents = scraping(BASE_URL)
+  haml :layout
 end
 
 get '/articles/:uri' do
-  doc = Nokogiri::HTML(open("#{BASE_URL}#{params[:uri]}"))
-  @contents = doc.xpath('//section[@id="main"]').to_s
-  haml :articles
+  @contents = scraping("#{BASE_URL}#{params[:uri]}")
+  haml :layout
 end
 
