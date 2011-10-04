@@ -1,6 +1,6 @@
 require 'open-uri'
 
-BASE_URL = 'http://devcenter.heroku.com/'
+BASE_URL = 'http://devcenter.heroku.com'
 
 helpers do
   def scraping(url)
@@ -10,11 +10,11 @@ end
 
 get '/' do
   @contents = scraping(BASE_URL)
-  haml :articles
+  haml :contents
 end
 
-get '/articles/:uri' do
-  @contents = scraping("#{BASE_URL}#{params[:uri]}")
-  haml :articles, :layout => !request.xhr?
+get '/:path/:uri' do
+  @contents = scraping("#{BASE_URL}/#{params[:path]}/#{params[:uri]}")
+  haml :contents, :layout => !request.xhr?
 end
 
