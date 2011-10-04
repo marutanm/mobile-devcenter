@@ -1,2 +1,7 @@
 %div{'data-role'=> 'page'}
+  - unless @header == ''
+    %div{'data-role' => 'header'}
+      %a{:href => '/', 'data-role' => 'button', 'data-icon' => 'home'} Home
+      = @header
+
   = @contents

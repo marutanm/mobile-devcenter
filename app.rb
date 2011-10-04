@@ -6,17 +6,19 @@ helpers do
   def scraping(url)
     doc = Nokogiri::HTML(open(url)).xpath('//section[@id="main"]')
     doc.xpath('//ul').each { |ul| ul['data-role'] = 'listview' }
-    doc.inner_html
+    @header = doc.xpath('//hgroup/h1').remove.to_s
+    @contents = doc.inner_html
+    nil
   end
 end
 
 get '/' do
-  @contents = scraping(BASE_URL)
+  scraping(BASE_URL)
   haml :contents
 end
 
 get '/:path/:uri' do
-  @contents = scraping("#{BASE_URL}/#{params[:path]}/#{params[:uri]}")
+  scraping("#{BASE_URL}/#{params[:path]}/#{params[:uri]}")
   haml :contents, :layout => !request.xhr?
 end
 
