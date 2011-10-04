@@ -10,11 +10,11 @@ end
 
 get '/' do
   @contents = scraping(BASE_URL)
-  haml :layout
+  haml :articles
 end
 
 get '/articles/:uri' do
   @contents = scraping("#{BASE_URL}#{params[:uri]}")
-  haml :layout
+  haml :articles, :layout => !request.xhr?
 end
 
