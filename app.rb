@@ -7,13 +7,14 @@ helpers do
     doc = Nokogiri::HTML(open(url)).xpath('//section[@id="main"]')
     doc.xpath('//ul').each { |ul| ul['data-role'] = 'listview' }
     @header = doc.xpath('//hgroup/h1').remove.to_s
-    @contents = doc.inner_html
+    @content = doc.inner_html
     nil
   end
 end
 
 get '/' do
   scraping(BASE_URL)
+  @header = '<h1>devcenter</h1>'
   haml :contents
 end
 
