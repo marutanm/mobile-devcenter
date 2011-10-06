@@ -1,0 +1,17 @@
+%div#root{'data-role'=> 'page'}
+  %div{'data-role' => 'header'}
+    %a{:href => "#{@url}", 'data-role' => 'button'} Source
+    %a{:href => '#info', 'data-role' => 'button', 'data-icon' => 'info', 'data-iconpos' => 'notext', 'data-transition' => 'flip'}
+    %h1 About mobile-devcenter
+
+  %div{'data-role' => 'content'}
+    = @content
+
+%div#info{'data-role'=> 'page'}
+  %div{'data-role' => 'header'}
+    %a{:href => '#root', 'data-role' => 'button', 'data-icon' => 'home', 'data-iconpos' => 'notext', 'data-transition' => 'flip', 'class' => 'ui-btn-right'}
+    %h1 About mobile-devcenter
+
+  %div{'data-role' => 'content'}
+    %p
+      Hello, this contents!

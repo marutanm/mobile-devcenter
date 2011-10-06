@@ -23,7 +23,7 @@ get '/' do
   @url = BASE_URL
   scraping(@url)
   @header = '<h1>devcenter</h1>'
-  haml :page
+  haml :root
 end
 
 get '/:path/:uri' do
