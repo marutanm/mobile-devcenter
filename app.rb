@@ -13,7 +13,7 @@ helpers do
       a['data-role'] = 'button'
       a['data-inline'] = 'true'
     end
-    @header = doc.xpath('//hgroup/h1').remove.to_s
+    @header = doc.xpath('//hgroup/h1').remove.to_html
     @content = doc.inner_html
     nil
   end
