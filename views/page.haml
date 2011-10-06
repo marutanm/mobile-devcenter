@@ -1,6 +1,7 @@
 %div{'data-role'=> 'page'}
   %div{'data-role' => 'header'}
-    %a{:href => '/', 'data-role' => 'button', 'data-icon' => 'home'} Home
+    %a{:href => "#{@url}", 'data-role' => 'button'} Source
+    %a{:href => '/', 'data-role' => 'button', 'data-icon' => 'home', 'data-iconpos' => 'notext'}
     = @header
 
   %div{'data-role' => 'content'}

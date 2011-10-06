@@ -20,13 +20,15 @@ helpers do
 end
 
 get '/' do
-  scraping(BASE_URL)
+  @url = BASE_URL
+  scraping(@url)
   @header = '<h1>devcenter</h1>'
   haml :page
 end
 
 get '/:path/:uri' do
-  scraping("#{BASE_URL}/#{params[:path]}/#{params[:uri]}")
+  @url = "#{BASE_URL}/#{params[:path]}/#{params[:uri]}"
+  scraping(@url)
   haml :page, :layout => !request.xhr?
 end
 
