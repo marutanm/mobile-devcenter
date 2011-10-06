@@ -5,7 +5,10 @@
     %h1 mobile-devcenter
 
   %div{'data-role' => 'content'}
+    %form{'action' => '/articles', 'method' => 'get'}
+      %input{:type => "search", :id => "search", :name => 'q'}
     = @content
+
 
 %div#info{'data-role'=> 'page'}
   %div{'data-role' => 'header'}
