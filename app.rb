@@ -5,7 +5,10 @@ BASE_URL = 'http://devcenter.heroku.com'
 helpers do
   def scraping(url)
     doc = Nokogiri::HTML(open(url)).xpath('//section[@id="main"]')
-    doc.xpath('//section/ul').each { |ul| ul['data-role'] = 'listview' }
+    doc.xpath('//section/ul').each do |ul|
+      ul['data-role'] = 'listview'
+      ul['data-inset'] = 'true'
+    end
     doc.xpath('//hgroup/p[@class="tags"]/a').each do |a|
       a['data-role'] = 'button'
       a['data-inline'] = 'true'
