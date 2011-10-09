@@ -26,6 +26,27 @@ get '/' do
   haml :root
 end
 
+get '/articles' do
+  require 'json'
+  jsonhash = JSON.parse open("#{BASE_URL}/articles.json?#{request.query_string}").read
+  content = Nokogiri::HTML::Builder.new do |doc|
+    doc.ul('data-role' => 'listview', 'data-inset' => 'true') {
+      jsonhash['devcenter'].each do |v|
+        logger.info v['article']['title']
+        doc.li {
+          doc.a(:href => "/articles/#{v['article']['slug']}") {
+            doc.text = v['article']['title']
+          }
+        }
+      end
+    }
+  end
+  @content = content.to_html
+  @header = '<h1>Search Results</h1>'
+  @url = "#{BASE_URL}/articles?#{request.query_string}"
+  haml :page, :layout => !request.xhr?
+end
+
 get '/:path/:uri' do
   @url = "#{BASE_URL}/#{params[:path]}/#{params[:uri]}"
   scraping(@url)
