@@ -17,6 +17,24 @@ helpers do
     @content = doc.inner_html
     nil
   end
+
+  def scraping_search(url)
+    jsonhash = JSON.parse open("#{BASE_URL}/articles.json?#{url}").read
+    content = Nokogiri::HTML::Builder.new do |doc|
+      doc.ul('data-role' => 'listview', 'data-inset' => 'true') {
+        jsonhash['devcenter'].each do |v|
+        logger.info v['article']['title']
+        doc.li {
+          doc.a(:href => "/articles/#{v['article']['slug']}") {
+            doc.text = v['article']['title']
+          }
+        }
+        end
+      }
+    end
+    @content = content.to_html
+    @header = '<h1>Search Results</h1>'
+  end
 end
 
 get '/' do
@@ -27,23 +45,8 @@ get '/' do
 end
 
 get '/articles' do
-  require 'json'
-  jsonhash = JSON.parse open("#{BASE_URL}/articles.json?#{request.query_string}").read
-  content = Nokogiri::HTML::Builder.new do |doc|
-    doc.ul('data-role' => 'listview', 'data-inset' => 'true') {
-      jsonhash['devcenter'].each do |v|
-        logger.info v['article']['title']
-        doc.li {
-          doc.a(:href => "/articles/#{v['article']['slug']}") {
-            doc.text = v['article']['title']
-          }
-        }
-      end
-    }
-  end
-  @content = content.to_html
-  @header = '<h1>Search Results</h1>'
   @url = "#{BASE_URL}/articles?#{request.query_string}"
+  scraping_search(request.query_string)
   haml :page, :layout => !request.xhr?
 end
 
