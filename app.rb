@@ -19,20 +19,24 @@ helpers do
   end
 
   def scraping_search(url)
+    form = Nokogiri::HTML::Builder.new do |doc|
+      doc.form(:action => '/articles', :method => 'get') {
+        doc.input(:type => "search", :id => "search", :name => 'q', :value => "#{url}".sub(/^q\=/, '').sub(/\+/, ' '))
+      }
+    end
     jsonhash = JSON.parse open("#{BASE_URL}/articles.json?#{url}").read
-    content = Nokogiri::HTML::Builder.new do |doc|
+    ul = Nokogiri::HTML::Builder.new do |doc|
       doc.ul('data-role' => 'listview', 'data-inset' => 'true') {
         jsonhash['devcenter'].each do |v|
-        logger.info v['article']['title']
-        doc.li {
-          doc.a(:href => "/articles/#{v['article']['slug']}") {
-            doc.text = v['article']['title']
+          doc.li {
+            doc.a(:href => "/articles/#{v['article']['slug']}") {
+              doc.text = v['article']['title']
+            }
           }
-        }
         end
       }
     end
-    @content = content.to_html
+    @content = form.to_html + ul.to_html
     @header = '<h1>Search Results</h1>'
   end
 end
